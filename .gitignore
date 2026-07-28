@@ -1,0 +1,12 @@
+# Local testing data only — real transcript content is someone else's
+# copyrighted material and must never be published. See BUILD_LOG.md
+# (2026-07-28 audit) for why.
+transcripts/
+knowledge_base/index.json
+
+# Run logs — no portfolio value, operational noise only.
+logs/
+
+__pycache__/
+*.pyc
+.env

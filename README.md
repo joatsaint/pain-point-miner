@@ -1,0 +1,52 @@
+# Pain Point Miner
+
+Point this at a YouTube channel's transcripts and it hands back a ranked list of what that audience actually asks and struggles with — no manual comment-scrolling, no guessing.
+
+I spent 25 years in enterprise IT before I ever touched a line of Claude Code. Reading a room full of frustrated people and finding the one real question under the noise isn't a new skill AI gave me — it's the same skill I used for two decades in ops, just pointed at a different kind of ticket queue. This tool automates the scanning part. It doesn't replace the judgment part.
+
+## What it does
+
+1. `indexer.py` scans a folder of transcript `.md` files and builds a lightweight index.
+2. `pain_point_extractor.py` reads that index, sends each transcript through Claude (Haiku) to pull out questions, pain points, and desired outcomes, then aggregates everything into one ranked report.
+
+Output looks like this:
+
+```
+## Top Questions (Most Asked)
+1. How do I rebuild my processes around what AI makes possible...? — mentioned in 4 video(s)
+
+## Top Pain Points (Most Expressed)
+1. Existing business models built on inefficiencies... — mentioned in 6 video(s)
+```
+
+## What it doesn't do
+
+It doesn't download transcripts for you, it doesn't touch Reddit or any other source, and it doesn't publish anything. Point it at `.md` transcript files you already have. Nothing else.
+
+## Setup
+
+1. Clone this folder.
+2. `pip install anthropic`
+3. Get an Anthropic API key: https://console.anthropic.com/settings/keys
+4. Set it as an environment variable, or drop a `.env` file in this folder:
+   ```
+   ANTHROPIC_API_KEY=your_key_here
+   ```
+5. Put your transcripts in `transcripts/<group-name>/<channel-name>/*.md`. Each file needs a plain header — see `transcripts/ai-and-claude-code/` for a working example.
+
+## Run it
+
+```
+python -c "from indexer import build_index; build_index(verbose=True)"
+python -c "from pain_point_extractor import run_extractor; run_extractor(group='<group-name>')"
+```
+
+Cost: Haiku, a few cents per run for a handful of files. You're paying Anthropic directly for your own usage — nothing routes through me.
+
+## A real problem this caught
+
+Fed it three real AI/tech transcripts as a first test. Two extracted cleanly; one failed with a truncated-JSON error because Haiku ran out of the token budget mid-response. Known limitation, not fixed yet — if you hit it, either raise `max_tokens` in `_pass1_extract()` or just accept the occasional skip; the aggregation step still runs fine on whatever succeeded.
+
+---
+
+Free guide for IT professionals figuring out what AI can't replace: https://rskiles.com/the-riddle-of-steel
