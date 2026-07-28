@@ -101,9 +101,23 @@ Return JSON with exactly this structure:
     {{"text": "outcome", "count": 6, "category": "career"}},
     {{"text": "outcome", "count": 3, "category": "skills"}}
   ],
+  "product_opportunities": [
+    {{"text": "what the product would solve", "product_type": "PDF guide", "demand": "HIGH", "rationale": "one sentence on why this product type fits this specific pain point"}},
+    {{"text": "what the product would solve", "product_type": "Workflow/Automation (e.g. n8n)", "demand": "MEDIUM", "rationale": "..."}}
+  ],
   "videos_analyzed": {videos_analyzed},
   "total_extractions": {len(all_extractions)}
 }}
+
+For "product_opportunities": look across ALL the top questions, pain points, and
+desired outcomes together, then recommend the 3-5 highest-priority products to
+build. For EACH one, pick whichever product_type actually fits best — do not
+default to PDF. Valid product_type values: "PDF guide", "Workflow/Automation
+(e.g. n8n, Zapier)", "Video/Course", "Template/Checklist", "Tool/Script",
+"Community/Coaching". Pick based on the nature of the pain point: a
+step-by-step process gap fits Workflow/Automation, a knowledge gap fits PDF
+guide or Video/Course, a repeated manual task fits Tool/Script, etc. Estimate
+demand from how many videos/mentions support it.
 
 DATA:
 {json.dumps(all_extractions)}"""
@@ -158,15 +172,17 @@ def _render_report(aggregated, group_name, files_processed, comment_files_count,
         lines.append(f"{i}. {item['text']} — mentioned in {item['count']} video(s)")
     lines.append("")
 
-    # PDF product opportunities — derive from top questions
-    lines += ["---", "", "## PDF Product Opportunities", ""]
-    lines.append("Based on the above, the highest-priority PDF topics are:")
+    # Product opportunities — Claude picks the product type per opportunity,
+    # not hardcoded to PDF (widened 2026-07-28 — see BUILD_LOG.md)
+    lines += ["---", "", "## Product Opportunities", ""]
+    lines.append("Based on the above, the highest-priority products to build:")
     lines.append("")
-    top_qs = aggregated.get("top_questions", [])
-    for i, item in enumerate(top_qs[:3], 1):
-        demand = "HIGH" if item["count"] >= 5 else "MEDIUM" if item["count"] >= 3 else "LOW"
+    for i, item in enumerate(aggregated.get("product_opportunities", []), 1):
         lines.append(f"{i}. **{item['text']}**")
-        lines.append(f"   Estimated demand: {demand}")
+        lines.append(f"   Product type: {item.get('product_type', 'Unspecified')}")
+        lines.append(f"   Estimated demand: {item.get('demand', 'UNKNOWN')}")
+        if item.get("rationale"):
+            lines.append(f"   Why: {item['rationale']}")
         lines.append("")
 
     lines += [
