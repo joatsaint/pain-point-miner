@@ -1,13 +1,14 @@
 # Pain Point Miner
 
-Point this at a YouTube channel's transcripts and it hands back a ranked list of what that audience actually asks and struggles with — no manual comment-scrolling, no guessing.
+Give it a YouTube URL and it hands back a ranked list of what that audience actually asks and struggles with — no manual comment-scrolling, no guessing.
 
 I spent 25 years in enterprise IT before I ever touched a line of Claude Code. Reading a room full of frustrated people and finding the one real question under the noise isn't a new skill AI gave me — it's the same skill I used for two decades in ops, just pointed at a different kind of ticket queue. This tool automates the scanning part. It doesn't replace the judgment part.
 
 ## What it does
 
-1. `indexer.py` scans a folder of transcript `.md` files and builds a lightweight index.
-2. `pain_point_extractor.py` reads that index, sends each transcript through Claude (Haiku) to pull out questions, pain points, and desired outcomes, then aggregates everything into one ranked report.
+1. `fetch.py` takes a single YouTube URL, pulls the transcript (and comments, if you've set up a free YouTube API key), and saves both in the format the rest of the tool expects.
+2. `indexer.py` scans everything in `transcripts/` and builds a lightweight index.
+3. `pain_point_extractor.py` reads that index, sends each transcript (and its comments, if present) through Claude (Haiku) to pull out questions, pain points, and desired outcomes, then aggregates everything into one ranked report — including product-type recommendations (PDF, video, tool, workflow, etc.), not just PDF ideas.
 
 Output looks like this:
 
@@ -21,18 +22,19 @@ Output looks like this:
 
 ## What it doesn't do
 
-It doesn't download transcripts for you, it doesn't touch Reddit or any other source, and it doesn't publish anything. Point it at `.md` transcript files you already have. Nothing else.
+It doesn't touch Reddit or any other source, and it doesn't publish anything. It fetches one YouTube video at a time — no channel-wide bulk download or registry (yet; that's a real next step, not built here).
 
 ## Project structure
 
 ```
 pain-point-miner/
+├── fetch.py                         # give it a URL, get transcript + comments files
 ├── indexer.py                       # scans transcripts/, builds the index
 ├── pain_point_extractor.py          # two-pass Claude extraction + aggregation
 ├── README.md
-├── build-it-yourself-prompts.md     # rebuild this with your own AI, 3-phase prompt
+├── build-it-yourself-prompts.md     # rebuild this with your own AI, prompt series
 ├── devto-announcement.md
-├── transcripts/                     # your own .md files go here (not included)
+├── transcripts/                     # fetch.py writes here (empty until you run it)
 │   └── <group-name>/
 │       └── <channel-name>/
 │           └── *.md
@@ -45,26 +47,30 @@ pain-point-miner/
 ## Setup
 
 1. Clone this folder.
-2. `pip install anthropic`
+2. `pip install -r requirements.txt`
 3. Get an Anthropic API key: https://console.anthropic.com/settings/keys
-4. Set it as an environment variable, or drop a `.env` file in this folder:
+4. (Optional, but recommended) Get a free YouTube Data API v3 key so comments get pulled too, not just the transcript: https://console.cloud.google.com/apis/credentials — enable "YouTube Data API v3" on the project. Without this, `fetch.py` still works, it just skips comments.
+5. Drop both keys in a `.env` file in this folder:
    ```
    ANTHROPIC_API_KEY=your_key_here
+   YOUTUBE_API_KEY=your_key_here
    ```
-5. Put your own transcripts in `transcripts/<group-name>/<channel-name>/*.md`, matching the structure above. Each file needs a plain text header (title, channel, date) followed by the transcript body — no sample transcripts are included in this repo (the ones used to test it were someone else's copyrighted video content, not fit to redistribute).
 
 ## Run it
 
 ```
+python -c "from fetch import fetch_video; fetch_video('https://www.youtube.com/watch?v=YOUR_VIDEO_ID')"
 python -c "from indexer import build_index; build_index(verbose=True)"
-python -c "from pain_point_extractor import run_extractor; run_extractor(group='<group-name>')"
+python -c "from pain_point_extractor import run_extractor; run_extractor(group='videos')"
 ```
+
+That's the whole thing — a real YouTube URL in, a ranked report out. `fetch_video()` takes an optional `group=` argument if you want to organize multiple videos into categories.
 
 Cost: Haiku, a few cents per run for a handful of files. You're paying Anthropic directly for your own usage — nothing routes through me.
 
-## A real problem this caught
+## A real problem this caught (and fixed)
 
-Fed it three real AI/tech transcripts as a first test. Two extracted cleanly; one failed with a truncated-JSON error because Haiku ran out of the token budget mid-response. Known limitation, not fixed yet — if you hit it, either raise `max_tokens` in `_pass1_extract()` or just accept the occasional skip; the aggregation step still runs fine on whatever succeeded.
+The extractor originally used a token budget too small for longer transcripts, which occasionally truncated Haiku's JSON response mid-string and failed that one file. Fixed by raising `max_tokens` in `_pass1_extract()` — verified clean on a real re-test before this note was written.
 
 ---
 

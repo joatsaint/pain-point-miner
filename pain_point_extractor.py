@@ -64,7 +64,7 @@ COMMENT CONTENT (weight 2x):
     try:
         response = client.messages.create(
             model=model,
-            max_tokens=500,
+            max_tokens=1500,
             system="You are a market research analyst. Extract pain points and questions from content. Return ONLY valid JSON. No prose. No markdown.",
             messages=[{"role": "user", "content": content}],
         )
