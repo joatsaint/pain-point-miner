@@ -19,6 +19,34 @@ Powers the actual pain-point extraction. Without this, the tool will not run at 
 2. Sign up / log in
 3. Create a key, copy it
 
+## Don't want to set up automated fetching yet? Skip it.
+
+`fetch.py` and the YouTube API key are optional conveniences, not a
+requirement. You can copy a transcript yourself from YouTube's own "Show
+transcript" button, paste it into a `.md` file matching this header, and
+the rest of the tool works exactly the same — including asking Claude
+Code directly to save a pasted transcript in this format for you:
+
+```
+# Video Title Here
+
+**Channel:** Channel Name
+**Published:** 2026-01-01
+**URL:** https://www.youtube.com/watch?v=VIDEO_ID
+**Downloaded:** 2026-01-01
+
+---
+
+## Transcript
+
+Paste the transcript text here.
+```
+
+Save it as `transcripts/<any-group-name>/<any-channel-name>/anything.md`.
+Comments are optional — without them, the analysis just runs on the
+transcript alone. The Anthropic API key below is still required either
+way; that's the actual analysis step, not something you can skip.
+
 ## 2. YouTube Data API v3 key (optional, but recommended)
 
 Powers comment fetching. Without this, `fetch.py` still works — it just skips comments and analyzes the transcript alone.
