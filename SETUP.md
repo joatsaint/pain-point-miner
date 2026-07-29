@@ -2,6 +2,15 @@
 
 Two accounts, two keys, one file. Nothing else.
 
+## 0. Python (required — skip if you already have it)
+
+You need Python 3.9 or newer.
+
+1. Check if you already have it: open a terminal and run `python --version`
+2. If that fails, or shows a version below 3.9, download it from https://www.python.org/downloads/
+3. On the installer's first screen, check the box that says "Add Python to PATH" before clicking Install
+4. Close and reopen your terminal, then run `python --version` again to confirm it worked
+
 ## 1. Anthropic API key (required)
 
 Powers the actual pain-point extraction. Without this, the tool will not run at all.
