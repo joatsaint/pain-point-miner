@@ -186,7 +186,12 @@ def fetch_video(url, group="videos"):
     print(f"[fetch] \"{metadata['title']}\" — {metadata['channel']}")
 
     print("[fetch] Fetching transcript...", end=" ", flush=True)
-    transcript = fetch_transcript_text(video_id)
+    try:
+        transcript = fetch_transcript_text(video_id)
+    except Exception as exc:
+        print("failed")
+        print(f"[fetch] This video has no usable captions/transcript ({exc}). Try a different video.")
+        return None
     print(f"ok ({len(transcript.split())} words)")
 
     channel_slug = _slugify(metadata["channel"]) or "unknown-channel"

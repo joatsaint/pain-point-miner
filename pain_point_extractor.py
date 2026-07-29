@@ -229,6 +229,10 @@ def run_extractor(group=None):
     Args:
         group: Group folder name (e.g. 'ai-and-claude-code'), or None for all groups.
     """
+    if not os.getenv("ANTHROPIC_API_KEY", "").strip():
+        print("[ANALYZE] No ANTHROPIC_API_KEY found. See SETUP.md for how to get one and add it to .env.")
+        return
+
     model = os.getenv("ANALYZER_MODEL", "claude-haiku-4-5-20251001")
     max_files = int(os.getenv("ANALYZER_MAX_FILES", "50"))
 
