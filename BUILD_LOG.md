@@ -224,4 +224,41 @@ complete, per Randy's own call.
 
 ---
 
+## 2026-07-30 — Three-mode onboarding entry point (`CLAUDE.md`)
+
+Added a real branching entry point so the tool asks which of three modes
+the user wants before doing anything, rather than assuming everyone wants
+the fully-automatic path:
+
+1. **Fully Automatic** — existing behavior, free version scoped to one
+   URL per run (a documented intended-use boundary, not code-enforced —
+   Randy's explicit call: if a technical user edits it out, that's theirs
+   to do, not worth guarding against in an open-source repo).
+2. **Manual / Zero-Cost** — a genuinely new tier: paste a transcript (and
+   comments) into one file per `manual-mode-template.md`, then have
+   whichever AI you're already using read it directly and produce the
+   analysis in the conversation. No API key, no metered calls, no script
+   execution required — works with Claude, Grok, ChatGPT, anything.
+3. **Builder Mode** — the AI does all the real work, but pauses at every
+   point a file needs to physically move somewhere, hands the user a
+   one-line instruction (file, destination folder), and waits for
+   confirmation before continuing.
+
+**The reasoning behind Builder Mode's pause, worth keeping on record:**
+Randy's framing is the "add an egg" effect from Betty Crocker's cake-mix
+history — the original mix required nothing from the baker (just add
+water), and it sold poorly; removing an ingredient so the baker had to add
+her own egg made the product feel like *her* creation, not something
+handed to her finished, and sales took off. The academic name for the same
+mechanism is the IKEA effect (Norton/Mochon/Ariely, 2011) — people value
+something more once they've contributed even trivial labor to making it.
+Builder Mode's pause is that same deliberate, trivially-easy touchpoint —
+not a technical necessity (the AI could place the file itself in most
+cases), a manufactured sense of participation. Builder Mode also has its
+own sub-choice: whether the *finished* tool ends up fully automatic or
+semi-automatic — that's independent of whether the build itself was
+walked through with pauses.
+
+---
+
 *(Next: CapCut assembly of this recording, Short trim + funnel to the long-form video.)*
