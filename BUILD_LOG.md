@@ -204,3 +204,24 @@ discipline as the original build.
 ---
 
 *(Next entries: the actual "pretend to be a first-time viewer" demo — long-form + Short recording, using a fresh video Randy provides.)*
+
+## 2026-07-29 — First-time-viewer demo recorded, live
+
+Real demo video: "How to identify pain points as an entrepreneur?"
+(Alux.com), chosen by Randy for its 72 real comments. Recorded a true
+fresh install: GitHub URL → `git clone` into a brand-new folder → install
+deps → real `.env` → `fetch_video()` → index → extract → rendered report,
+end to end, no dev-copy shortcuts (caught and fixed a real miss where the
+first attempt used the existing dev clone instead of a true fresh one).
+
+Randy explicitly authorized a one-time exception to publish this specific
+video's transcript + comments files on GitHub (normally excluded by
+policy) so the demo could show the actual source material, not just the
+output. Not a policy change — future videos stay excluded by default.
+
+Report: `knowledge_base/reports/pain_points_2026-07-29_demo.md`. Demo
+complete, per Randy's own call.
+
+---
+
+*(Next: CapCut assembly of this recording, Short trim + funnel to the long-form video.)*
