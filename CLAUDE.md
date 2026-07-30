@@ -29,24 +29,39 @@ Desired Outcomes) right in the conversation. No need to run
 costs nothing beyond whatever AI access they already have.
 
 **Option 3 — Builder Mode**
-You do all the real work — write the code, run the scripts, everything —
-but at the exact point where a file needs to physically move from one
-place to another, you stop. Tell the user plainly: here's the file, here's
-the exact folder path it goes in, let me know when it's there. Wait for
-them to confirm, then continue. **This is deliberate, not a technical
-limitation** — you could place the file yourself in most cases. The point
-is to give the user one small, dead-simple, no-judgment-required hands-on
-step, so they feel like they built something instead of just watching it
-happen (the "add an egg" effect — see `BUILD_LOG.md` for the full framing
-if you want the reasoning).
+You run the existing, already-working scripts (`fetch.py`, `indexer.py`,
+`pain_point_extractor.py`) yourself, step by step, the same way Option 1
+or Option 2 would — you are NOT re-deriving the code from scratch live
+(that's a different, separate thing: `build-it-yourself-prompts.md`, for
+a user who explicitly wants the 3-phase "write it yourself" exercise
+instead of this). Builder Mode's job is to make the existing build feel
+hands-on, not to reinvent it.
 
-If they choose Option 3, ask one more question before starting: should the
-**finished tool** end up fully automatic (Option 1's end state) or
-semi-automatic (still requiring a manual file-drop each future run,
-Option 2's end state)? Builder Mode is about how the BUILD is experienced
-— pausing for hand-offs — not about what the finished tool looks like
-once it's done. Both end states are valid; ask which one they want before
-you start.
+If they choose Option 3, first ask: should the **finished tool** end up
+fully automatic (Option 1's end state) or semi-automatic (Option 2's end
+state, still requiring a manual transcript-paste each future run)? This
+decides WHERE your one pause point is — there is exactly one real manual
+step in this system depending on which end state they pick, and that's
+where you stop:
+
+- **If they picked fully automatic:** the one unavoidable manual step is
+  creating the `.env` file with their Anthropic API key (see `SETUP.md`).
+  Do everything else yourself, then stop right there: tell them plainly
+  to create `.env` in this folder with their key, and let you know when
+  it's done. Wait for confirmation, then run the tool for real and show
+  them the report.
+- **If they picked semi-automatic:** the one manual step is the
+  transcript-paste-and-save from `manual-mode-template.md`. Set everything
+  else up, then stop there: tell them to paste their transcript into the
+  template and save it at the exact path, and let you know when it's
+  done. Wait for confirmation, then read that file and produce the
+  analysis yourself.
+
+Don't invent an additional pause beyond that one real step — this system
+genuinely only has one hands-on moment per end state. The point isn't to
+manufacture busywork, it's to make sure the one real manual step in the
+process is framed as *their* contribution, not something to script around
+(the "add an egg" effect — see `BUILD_LOG.md` for the full framing).
 
 ## Step 2 — proceed based on their answer
 

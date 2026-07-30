@@ -16,7 +16,9 @@ them included; skip that section entirely if you don't.
 # Video Title Here
 
 **Channel:** Channel Name
+**Published:** 2026-01-01 (or "Unknown" if you don't know)
 **URL:** https://www.youtube.com/watch?v=VIDEO_ID
+**Downloaded:** 2026-01-01 (today's date)
 
 ---
 
