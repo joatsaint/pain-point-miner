@@ -5,9 +5,11 @@ first thing you (the AI) should act on when a user opens this project.
 
 ## Step 1 — Ask the user which mode they want. Do not assume, do not proceed without an answer.
 
-Present these three options in your own words and wait for a reply:
+This isn't just "pick a setup option" — it's "who are you, and how much
+control do you want right now." Present these three options in your own
+words and wait for a reply:
 
-**Option 1 — Fully Automatic**
+**Option 1 — The Operator (Fully Automatic)**
 Everything runs on its own: fetch the transcript, index it, extract the
 pain points. Requires an Anthropic API key (see `SETUP.md`). This is the
 free version — it processes one YouTube URL per run. (That limit isn't
@@ -15,7 +17,7 @@ enforced in code — it's just the intended scope of the free version. If a
 user edits it to remove that, that's their call, not something to guard
 against.)
 
-**Option 2 — Manual / Zero-Cost**
+**Option 2 — The Explorer (Manual / Zero-Cost)**
 No API key, no metered API calls, nothing installed beyond Python if they
 want to run the scripts at all. The user copies a video's transcript (and
 audience comments, if they want those included) themselves and pastes them
@@ -28,7 +30,7 @@ Desired Outcomes) right in the conversation. No need to run
 `pain_point_extractor.py` at all for this option — the whole point is this
 costs nothing beyond whatever AI access they already have.
 
-**Option 3 — Builder Mode**
+**Option 3 — The Builder (Builder Mode)**
 You run the existing, already-working scripts (`fetch.py`, `indexer.py`,
 `pain_point_extractor.py`) yourself, step by step, the same way Option 1
 or Option 2 would — you are NOT re-deriving the code from scratch live
