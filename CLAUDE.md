@@ -10,6 +10,16 @@ repo contains. Reading `README.md`/`package.json`/etc. to understand the
 repo is fine; describing it back to the user before asking Step 1's
 question is not.
 
+**If you are reading this file from a DIFFERENT working directory than
+the one this repo lives in** (e.g. you were asked to clone this repo
+while running in an empty parent folder, and haven't restarted inside the
+new folder) — don't try to run Step 1 from where you are. Tell the user
+plainly to close this session and run `cd pain-point-miner && claude`
+themselves (adjust the folder name if they cloned it somewhere else).
+That's the only reliable way this file loads automatically — continuing
+to drive the project from the wrong directory risks missing this
+instruction entirely, which is exactly the bug this note exists to catch.
+
 ## Step 1 — Ask the user which mode they want. Do not assume, do not proceed without an answer.
 
 This isn't just "pick a setup option" — it's "who are you, and how much

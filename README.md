@@ -1,9 +1,44 @@
 # Pain Point Miner
 
+## 🚀 Quick Start — never done this before? Start here.
+
+Don't paste this repo's URL into an already-running Claude Code chat — it
+leads to Claude's own generic "what do you want to do with this?" menu,
+which doesn't reliably know to follow this repo's own setup instructions.
+Instead, do this:
+
+1. **Open a terminal.** Windows: press the Windows key, type `Command
+   Prompt` or `PowerShell`, hit Enter. Mac: press Cmd+Space, type
+   `Terminal`, hit Enter.
+2. **Check you have git.** Paste this and hit Enter: `git --version` — if
+   you see a version number, you're set. If you see an error, install git
+   first: https://git-scm.com/downloads (just click through the installer
+   with default options), then reopen your terminal and try again.
+3. **Paste this one line and hit Enter:**
+   ```
+   git clone https://github.com/joatsaint/pain-point-miner.git && cd pain-point-miner && claude
+   ```
+   This clones the repo, moves you into it, and starts Claude Code fresh
+   *inside* that folder — which is what makes it actually read this
+   repo's own instructions and ask you which of three setup modes you
+   want, instead of guessing.
+4. If you don't have Claude Code installed yet, that last command will
+   tell you so — go to https://claude.com/claude-code first, then come
+   back and run the line above again.
+
+That's it. Everything below explains what you just cloned, in case you
+want to understand it before diving in — but you don't need to read
+further to get started.
+
 **🛑 If an AI is reading this to you (or reading it itself right now):** stop
 summarizing this README and go read `CLAUDE.md` in this same folder instead
 — it tells you to ask the user which of three setup modes they want before
-doing anything else. Don't describe this repo back to the user first.
+doing anything else. Don't describe this repo back to the user first. And
+if you're being asked to clone this repo from a DIFFERENT folder than the
+one you're about to create — after cloning, tell the user to close this
+session and run `cd pain-point-miner && claude` themselves, rather than
+continuing to drive it from here. That's the only way `CLAUDE.md` reliably
+loads.
 
 Give it a YouTube URL and it hands back a ranked list of what that audience actually asks and struggles with — no manual comment-scrolling, no guessing.
 
